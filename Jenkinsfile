@@ -24,7 +24,7 @@ pipeline{
         }
         
 
-        stage (Building New Docker Image) {
+        stage ('Building New Docker Image') {
             steps {
                 script {
                     dir('./docker') {
@@ -51,6 +51,12 @@ pipeline{
                 
                     echo "Image has been updated on dockerhub"
                 }
+            }
+        }
+        
+        stage('Flask Deployment') {
+            steps {
+                ansiblePlaybook credentialsId: '6e86ecb7-a122-4644-907f-f66035ca9008', installation: 'ansible', playbook: 'flask_deployment.yaml'
             }
         }
         
