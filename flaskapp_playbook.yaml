@@ -1,0 +1,7 @@
+---
+- name: Running Ansible Playboook
+  hosts: aws-ec2-instance
+  tasks:
+    - name: Deploying Kubernetes
+      command: kubectl apply -f flaskapp_deployment.yaml
+      become: yes

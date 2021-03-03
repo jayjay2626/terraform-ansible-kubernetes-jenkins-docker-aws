@@ -1,0 +1,47 @@
+---
+- name: Provision FlaskApp
+  hosts: servers
+  tasks:
+
+    - name: Install pip3
+      apt:
+        update_cache: yes
+        name: python3-pip
+      become: yes
+
+    - name: Install Docker
+      shell: |
+        apt install apt-transport-https ca-certificates curl software-properties-common -y
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+        apt update && sudo apt upgrade -y
+        apt install docker-ce -y
+        groupadd docker
+        usermod -aG docker ${USER}
+        chmod 666 /var/run/docker.sock
+      become: yes
+
+    - name: Start Docker
+      shell: |
+        systemctl start docker 
+        systemctl enable docker 
+      become: yes
+
+    - name: Install Minikube
+      shell: |
+        get_url https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        cp minikube-linux-amd64 /usr/local/bin/minikube
+        chmod 755 /usr/local/bin/minikube
+        minikube config set driver docker
+      become: yes
+
+    - name: Install Kubectl
+      shell: |
+        get_url -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+        echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+        apt-get update -y
+        apt-get install kubectl kubeadm kubectl -y
+      become: yes
+
+    - name: Start Minikube
+      shell: minikube start

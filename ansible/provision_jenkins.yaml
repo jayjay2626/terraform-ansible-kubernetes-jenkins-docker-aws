@@ -1,0 +1,46 @@
+---
+- name: Configure Jenkins Playbook
+  hosts: jenkins
+  tasks:
+
+    - name: Install Java Requirements
+      apt:
+        update_cache: yes
+        name: default-jdk
+      become: yes
+
+    - name: Install Jenkins
+      shell: |
+        wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+        sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+        /etc/apt/sources.list.d/jenkins.list'
+        sudo apt-get update -y
+        sudo apt-get install jenkins -y
+
+    - name: Run jenkins
+      shell: /etc/init.d/jenkins start
+      become: yes
+      
+    - name: Install pip3
+      apt:
+        update_cache: yes
+        name: python3-pip
+      become: yes
+
+    - name: Install Docker
+      shell: |
+        apt install apt-transport-https ca-certificates curl software-properties-common -y
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+        apt update && sudo apt upgrade -y
+        apt install docker-ce -y
+        groupadd docker
+        usermod -aG docker ${USER}
+        chmod 666 /var/run/docker.sock
+      become: yes
+
+    - name: Start Docker
+      shell: |
+        systemctl start docker 
+        systemctl enable docker 
+      become: yes
