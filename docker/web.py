@@ -1,12 +1,6 @@
-from flask import Flask, request, Response, render_template
-from prometheus_flask_exporter import PrometheusMetrics
+from flask import Flask, render_template
 
 app = Flask(__name__)
-metrics = PrometheusMetrics(app)
-
-# static information as metric
-metrics.info('app_info', 'Application info', version='1.0.3')
-
 
 @app.route("/")
 def main():
@@ -14,4 +8,4 @@ def main():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=8226, debug=True)
