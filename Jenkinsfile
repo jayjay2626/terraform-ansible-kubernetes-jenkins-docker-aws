@@ -16,10 +16,10 @@ pipeline{
         stage('SCM Checkout'){
             steps {
                 // remove folder if already exist
-                sh 'rm -rf terraform-ansible-jenkins-docker'
+                sh 'rm -rf terraform-ansible-kubernetes-jenkins-docker-aws'
 
                 // clone the repository from github
-                sh 'git clone https://github.com/jayjay2626/terraform-ansible-jenkins-aws-docker.git'
+                sh 'git clone https://github.com/jayjay2626/terraform-ansible-kubernetes-jenkins-docker-aws.git'
             }
         }
         
@@ -37,8 +37,6 @@ pipeline{
             }
         }
 
-
-       
         stage('Updating Image On Dockerhub'){
             steps {
                 script {
