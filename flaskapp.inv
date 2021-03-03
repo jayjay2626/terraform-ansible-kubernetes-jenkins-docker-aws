@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 [server]
 54.227.75.103 ansible_user=ubuntu
+=======
+[servers]
+54.227.75.103 ansible_user=ubuntu
+>>>>>>> 58e892ad70098e3d1867ef8e6445ea96becc0d59
