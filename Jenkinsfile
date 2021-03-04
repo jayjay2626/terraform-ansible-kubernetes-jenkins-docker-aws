@@ -51,13 +51,69 @@ pipeline{
                 }
             }
         }
-        
-        stage('Flask Deployment') {
+
+        stage('Starting Kubernetes') {
             steps {
-                ansiblePlaybook credentialsId: '6e86ecb7-a122-4644-907f-f66035ca9008', installation: 'ansible', playbook: 'flask_deployment.yaml'
+                script{
+                    
+                    sh 'minikube start'
+                    echo 'kubernetes started successfully'
+                    
+                }
             }
         }
         
+        stage('Terraform init') {
+            steps {
+                script{
+                    dir(./k8){
+                        sh 'terraform init'
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                script{
+                    dir(./k8){
+                        sh 'terraform apply -auto-approve'
+                    }
+                }
+            }
+        }
+
+        stage('Pods Info') {
+            steps {
+                script{
+                    
+                    sh 'kubectl get po -A'
+                    
+                }
+            }
+        }
+
+        stage('Deployment Info') {
+            steps {
+                script{
+                    
+                    sh 'kubectl get deployment'
+                    
+                }
+            }
+        }
+
+        stage('Cluster Info') {
+            steps {
+                script{
+                    
+                    sh 'kubectl get all'
+                    
+                }
+            }
+        }
+        
+
 
     }
 }
