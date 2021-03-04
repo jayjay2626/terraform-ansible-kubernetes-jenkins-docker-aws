@@ -4,4 +4,8 @@
 =======
 [servers]
 54.227.75.103 ansible_user=ubuntu
+<<<<<<< HEAD
 >>>>>>> 58e892ad70098e3d1867ef8e6445ea96becc0d59
+=======
+host_key_checking = False
+>>>>>>> af15f982c72c36d3ca58e5897f73efd3a0023704

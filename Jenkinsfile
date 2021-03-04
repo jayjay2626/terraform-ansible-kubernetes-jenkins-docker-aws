@@ -65,6 +65,7 @@ pipeline{
         
         stage('Terraform init') {
             steps {
+<<<<<<< HEAD
                 script{
                     dir(./k8){
                         sh 'terraform init'
@@ -110,6 +111,9 @@ pipeline{
                     sh 'kubectl get all'
                     
                 }
+=======
+                ansiblePlaybook credentialsId: 'private-key', installation: 'ansible', inventory: 'flaskapp.inv', playbook: 'flaskapp_playbook.yaml'
+>>>>>>> af15f982c72c36d3ca58e5897f73efd3a0023704
             }
         }
         

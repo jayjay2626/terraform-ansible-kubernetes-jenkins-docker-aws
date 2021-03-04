@@ -1,6 +1,6 @@
 ---
 - name: Running Ansible Playboook
-  hosts: ec2-54-227-75-103.compute-1.amazonaws.com
+  hosts: servers
   tasks:
     - name: Deploying Kubernetes
       command: kubectl apply -f flaskapp_deployment.yaml
