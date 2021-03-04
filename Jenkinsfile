@@ -66,9 +66,7 @@ pipeline{
         stage('Terraform init') {
             steps {
                 script{
-                    dir('./k8'){
-                        sh 'terraform init'
-                    }
+                   sh 'terraform init'
                 }
             }
         }
@@ -76,9 +74,7 @@ pipeline{
         stage('Terraform Apply') {
             steps {
                 script{
-                    dir('./k8'){
-                        sh 'terraform apply -auto-approve'
-                    }
+                     sh 'terraform apply -auto-approve'
                 }
             }
         }
